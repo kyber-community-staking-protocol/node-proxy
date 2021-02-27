@@ -17,7 +17,19 @@ http_response_code(200);
 
 // Check the origin (not foolproof!)
 if($_ENV["ORIGIN_DOMAIN"] !== "*") {
-    if(in_array($_ENV["ORIGIN_DOMAIN"], [parse_url($_SERVER['HTTP_REFERER'])['host'], parse_url($_SERVER['HTTP_ORIGIN'])['host']]) === false) {
+
+    $allowedOrigins = explode("|", $_ENV['ORIGIN_DOMAIN']);
+    $blIsAllowed = true;
+    foreach($allowedOrigins as $allowed) {
+        if(in_array($allowed, [parse_url($_SERVER['HTTP_REFERER'])['host'], parse_url($_SERVER['HTTP_ORIGIN'])['host']]) === false) {
+           $blIsAllowed = false;
+        } else {
+            $blIsAllowed = true;
+            break;
+        }
+    }
+
+    if($blIsAllowed === false) {
         // Origin is not whitelisted, return a 403
         http_response_code(403);
         die("You cannot be here!");
