@@ -3,8 +3,11 @@ require_once(__DIR__ . "/../vendor/autoload.php");
 use GuzzleHttp\Psr7\Request;
 
 // Init dependencies
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
-$dotenv->load();
+if (file_exists(__DIR__ . '/../.env')) {
+    // Check this file exists for local development - Heroku will use heroku config:set
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
+    $dotenv->load();
+}
 $client = new GuzzleHttp\Client();
 
 // Set required response headers

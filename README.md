@@ -8,4 +8,10 @@ A quick script to proxy web3 node requests so that we can;
 
 ### Installation
 
-- Heroku deploy
+#### Heroku
+
+```
+heroku config:set INFURA_ID="XXX"
+heroku config:set ORIGIN_DOMAIN="XXX"
+heroku config:set RPC_METHODS="eth_getBlockByNumber|eth_blockNumber|eth_call|eth_getBalance"
+```
