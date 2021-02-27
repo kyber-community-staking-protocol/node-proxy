@@ -16,10 +16,12 @@ header('Access-Control-Allow-Headers: *');
 http_response_code(200);
 
 // Check the origin (not foolproof!)
-if(in_array($_ENV["ORIGIN_DOMAIN"], [parse_url($_SERVER['HTTP_REFERER'])['host'], parse_url($_SERVER['HTTP_ORIGIN'])['host']]) === false) {
-    // Origin is not whitelisted, return a 403
-    http_response_code(403);
-    die("You cannot be here!");
+if($_ENV["ORIGIN_DOMAIN"] !== "*") {
+    if(in_array($_ENV["ORIGIN_DOMAIN"], [parse_url($_SERVER['HTTP_REFERER'])['host'], parse_url($_SERVER['HTTP_ORIGIN'])['host']]) === false) {
+        // Origin is not whitelisted, return a 403
+        http_response_code(403);
+        die("You cannot be here!");
+    }
 }
 
 // Check the RPC request
