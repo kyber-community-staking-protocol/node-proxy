@@ -1,0 +1,20 @@
+{
+    "name": "Infura Node Proxy",
+    "description": "A simple HTTP proxy for Infura nodes so we can hide keys in the frontend",
+    "repository": "https://github.com/kyber-community-staking-protocol/node-proxy",
+    "keywords": [],
+    "env": {
+        "INFURA_ID": {
+            "description": "The Infura API Key",
+            "value": "XXX"
+        },
+        "ORIGIN_DOMAIN": {
+            "description": "Restrict the requests from an origin",
+            "value": "*"
+        },
+        "RPC_METHODS": {
+            "description": "A list of allowed RPC methods",
+            "value": "eth_getBlockByNumber|eth_blockNumber|eth_call|eth_getBalance|eth_gasPrice"
+        }
+    }
+  }
