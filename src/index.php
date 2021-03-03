@@ -25,7 +25,7 @@ if($_ENV["ORIGIN_DOMAIN"] !== "*") {
     $blIsAllowed = true;
     foreach($allowedOrigins as $allowed) {
         if(in_array($allowed, [parse_url($_SERVER['HTTP_REFERER'])['host'], parse_url($_SERVER['HTTP_ORIGIN'])['host']]) === false) {
-           //$blIsAllowed = false;
+           $blIsAllowed = false;
         } else {
             $blIsAllowed = true;
             break;
