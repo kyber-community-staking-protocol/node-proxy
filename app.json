@@ -8,6 +8,14 @@
             "description": "The Infura API Key",
             "value": "XXX"
         },
+        "ANYBLOCK_ID": {
+            "description": "The AnyBlock API Key",
+            "value": "XXX"
+        },
+        "RIVET_ID": {
+            "description": "The Rivet API Key",
+            "value": "XXX"
+        },
         "ORIGIN_DOMAIN": {
             "description": "Restrict the requests from an origin",
             "value": "*"

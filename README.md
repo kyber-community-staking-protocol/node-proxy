@@ -6,6 +6,8 @@ A quick script to proxy web3 node requests so that we can;
 - do filtering on allowed rpc methods to prevent abuse
 - do filtering on request origins to prevent abuse
 
+`php -S localhost:9001 ./src/index.php`
+
 ### Installation
 
 #### Heroku
@@ -14,6 +16,8 @@ A quick script to proxy web3 node requests so that we can;
 
 ```
 heroku config:set INFURA_ID="XXX"
+heroku config:set ANYBLOCK_ID="XXX"
+heroku config:set RIVET_ID="XXX"
 heroku config:set ORIGIN_DOMAIN="XXX"
 heroku config:set RPC_METHODS="eth_getBlockByNumber|eth_blockNumber|eth_call|eth_getBalance|eth_gasPrice"
 ```

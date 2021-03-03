@@ -1,6 +1,9 @@
 <?php
 require_once(__DIR__ . "/../vendor/autoload.php");
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 
 // Init dependencies
 if (file_exists(__DIR__ . '/../.env')) {
@@ -22,7 +25,7 @@ if($_ENV["ORIGIN_DOMAIN"] !== "*") {
     $blIsAllowed = true;
     foreach($allowedOrigins as $allowed) {
         if(in_array($allowed, [parse_url($_SERVER['HTTP_REFERER'])['host'], parse_url($_SERVER['HTTP_ORIGIN'])['host']]) === false) {
-           $blIsAllowed = false;
+           //$blIsAllowed = false;
         } else {
             $blIsAllowed = true;
             break;
@@ -61,12 +64,45 @@ if(in_array($input['method'], $allowedMethods) === false) {
     die("RPC method is not allowed!");
 }
 
-$response = $client->post(
-    'https://mainnet.infura.io/v3/'. $_ENV['INFURA_ID'], 
-    [
-        'json' => $input
-    ]
-);
+// Decide which RPC endpoint to relay to
+// Basic routing... just randomize it. We will improve if it becomes an issue
+$apis = [];
+if($_ENV['INFURA_ID'] !== "") {
+    $apis[] = 'https://mainnet.infura.io/v3/'. $_ENV['INFURA_ID'];
+}
+if($_ENV['ANYBLOCK_ID'] !== "") {
+    $apis[] = 'https://api.anyblock.tools/ethereum/ethereum/mainnet/rpc/'. $_ENV['ANYBLOCK_ID'] .'/';
+}
+if($_ENV['RIVET_ID'] !== "") {
+    $apis[] = 'https://'. $_ENV['RIVET_ID'] .'.eth.rpc.rivet.cloud/';
+}
 
-http_response_code($response->getStatusCode());
-echo ($response->getBody()->getContents());
+$endpoint = array_rand($apis, 1);
+
+try {
+    $response = $client->post(
+        $apis[$endpoint], 
+        [
+            'json' => $input
+        ]
+    );
+
+    http_response_code($response->getStatusCode());
+    echo ($response->getBody()->getContents());
+} catch(ClientException $e) {
+    http_response_code($e->getResponse()->getStatusCode());
+    if ($e->hasResponse()) {
+        $objResponse = $e->getResponse();
+        echo return_error_as_json((string) $objResponse->getBody());
+    }
+}
+
+function return_error_as_json($varResponseFromApi)
+{
+    $isJson = json_decode($varResponseFromApi);
+    if($isJson === null && json_last_error() !== JSON_ERROR_NONE) {
+        return json_encode(["error" => $varResponseFromApi]);
+    }
+
+    return $varResponseFromApi;
+}
