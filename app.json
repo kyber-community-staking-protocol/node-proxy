@@ -23,6 +23,10 @@
         "RPC_METHODS": {
             "description": "A list of allowed RPC methods",
             "value": "eth_getBlockByNumber|eth_blockNumber|eth_call|eth_getBalance|eth_gasPrice"
+        },
+        "WEIGHTED_ROUTES": {
+            "description": "Configuration for the weighted routing. SERVICE_NAME{WEIGHT}",
+            "value": "INFURA{1}|ANYBLOCK{2}|RIVET{2}"
         }
     }
   }

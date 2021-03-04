@@ -77,6 +77,44 @@ if($_ENV['RIVET_ID'] !== "") {
     $apis[] = 'https://'. $_ENV['RIVET_ID'] .'.eth.rpc.rivet.cloud/';
 }
 
+// Now add the weighted routing, if configured
+if($_ENV['WEIGHTED_ROUTES'] !== "") {
+    $apis = []; //clear out current config of 1 each
+    $routes = explode("|", $_ENV['WEIGHTED_ROUTES']);
+    foreach($routes as $route) {
+       preg_match("/(\w+)\{(\d+?)\}/", $route, $con);
+       if(count($con) === 3) {
+           // Properly configured
+           switch(strtoupper($con[1])) {
+               default:
+                // nothing
+                break;
+                case 'ANYBLOCK':
+                    if($_ENV['ANYBLOCK_ID'] !== "") {
+                        for($i=1;$i<=$con[2];$i++) {
+                            $apis[] = 'https://api.anyblock.tools/ethereum/ethereum/mainnet/rpc/'. $_ENV['ANYBLOCK_ID'] .'/';
+                        }
+                    }
+                break;
+                case 'INFURA':
+                    if($_ENV['INFURA_ID'] !== "") {
+                        for($i=1;$i<=$con[2];$i++) {
+                            $apis[] = 'https://mainnet.infura.io/v3/'. $_ENV['INFURA_ID'];
+                        }
+                    }
+                break;
+                case 'RIVET':
+                    if($_ENV['RIVET_ID'] !== "") {
+                        for($i=1;$i<=$con[2];$i++) {
+                            $apis[] = 'https://'. $_ENV['RIVET_ID'] .'.eth.rpc.rivet.cloud/';
+                        }
+                    }
+                break;
+           }
+       }
+    }
+}
+
 $endpoint = array_rand($apis, 1);
 
 try {
