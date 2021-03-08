@@ -68,13 +68,16 @@ if(in_array($input['method'], $allowedMethods) === false) {
 // Basic routing... just randomize it. We will improve if it becomes an issue
 $apis = [];
 if($_ENV['INFURA_ID'] !== "") {
-    $apis[] = 'https://mainnet.infura.io/v3/'. $_ENV['INFURA_ID'];
+    $apis[] = $_ENV['INFURA_ID'];
 }
 if($_ENV['ANYBLOCK_ID'] !== "") {
-    $apis[] = 'https://api.anyblock.tools/ethereum/ethereum/mainnet/rpc/'. $_ENV['ANYBLOCK_ID'] .'/';
+    $apis[] = $_ENV['ANYBLOCK_ID'];
 }
 if($_ENV['RIVET_ID'] !== "") {
-    $apis[] = 'https://'. $_ENV['RIVET_ID'] .'.eth.rpc.rivet.cloud/';
+    $apis[] = $_ENV['RIVET_ID'];
+}
+if($_ENV['QUIKNODE_ID'] !== "") {
+    $apis[] = $_ENV['QUIKNODE_ID'];
 }
 
 // Now add the weighted routing, if configured
@@ -92,21 +95,28 @@ if($_ENV['WEIGHTED_ROUTES'] !== "") {
                 case 'ANYBLOCK':
                     if($_ENV['ANYBLOCK_ID'] !== "") {
                         for($i=1;$i<=$con[2];$i++) {
-                            $apis[] = 'https://api.anyblock.tools/ethereum/ethereum/mainnet/rpc/'. $_ENV['ANYBLOCK_ID'] .'/';
+                            $apis[] = $_ENV['ANYBLOCK_ID'];
                         }
                     }
                 break;
                 case 'INFURA':
                     if($_ENV['INFURA_ID'] !== "") {
                         for($i=1;$i<=$con[2];$i++) {
-                            $apis[] = 'https://mainnet.infura.io/v3/'. $_ENV['INFURA_ID'];
+                            $apis[] = $_ENV['INFURA_ID'];
                         }
                     }
                 break;
                 case 'RIVET':
                     if($_ENV['RIVET_ID'] !== "") {
                         for($i=1;$i<=$con[2];$i++) {
-                            $apis[] = 'https://'. $_ENV['RIVET_ID'] .'.eth.rpc.rivet.cloud/';
+                            $apis[] = $_ENV['RIVET_ID'];
+                        }
+                    }
+                break;
+                case 'QUIKNODE':
+                    if($_ENV['QUIKNODE_ID'] !== "") {
+                        for($i=1;$i<=$con[2];$i++) {
+                            $apis[] = $_ENV['QUIKNODE_ID'];
                         }
                     }
                 break;

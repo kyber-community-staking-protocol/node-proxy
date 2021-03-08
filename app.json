@@ -5,15 +5,19 @@
     "keywords": [],
     "env": {
         "INFURA_ID": {
-            "description": "The Infura API Key",
+            "description": "The Infura API endpoint",
             "value": "XXX"
         },
         "ANYBLOCK_ID": {
-            "description": "The AnyBlock API Key",
+            "description": "The AnyBlock API endpoint",
             "value": "XXX"
         },
         "RIVET_ID": {
-            "description": "The Rivet API Key",
+            "description": "The Rivet API endpoint",
+            "value": "XXX"
+        },
+        "QUIKNODE_ID": {
+            "description": "The Quiknode API endpoint",
             "value": "XXX"
         },
         "ORIGIN_DOMAIN": {
@@ -26,7 +30,7 @@
         },
         "WEIGHTED_ROUTES": {
             "description": "Configuration for the weighted routing. SERVICE_NAME{WEIGHT}",
-            "value": "INFURA{1}|ANYBLOCK{2}|RIVET{2}"
+            "value": "INFURA{1}|ANYBLOCK{2}|RIVET{2}|QUIKNODE{1}"
         }
     }
   }
