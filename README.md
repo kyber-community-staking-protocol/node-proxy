@@ -18,9 +18,10 @@ A quick script to proxy web3 node requests so that we can;
 heroku config:set INFURA_ID="XXX"
 heroku config:set ANYBLOCK_ID="XXX"
 heroku config:set RIVET_ID="XXX"
+heroku config:set QUIKNODE_ID="XXX"
 heroku config:set ORIGIN_DOMAIN="XXX"
 heroku config:set RPC_METHODS="eth_getBlockByNumber|eth_blockNumber|eth_call|eth_getBalance|eth_gasPrice"
-heroku config:set WEIGHTED_ROUTES="INFURA{1}|ANYBLOCK{2}|RIVET{2}"
+heroku config:set WEIGHTED_ROUTES="INFURA{1}|ANYBLOCK{2}|RIVET{2}|QUIKNODE{1}"
 ```
 
 #### Weighted Routing
